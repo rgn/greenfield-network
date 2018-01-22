@@ -1,0 +1,12 @@
+query selectPersonalWallets {
+  description: "Select all personal wallets having days available."
+  statement:
+  	SELECT com.trivadis.greenfield.PersonalWallet  		
+}
+
+query selectPersonalWalletsWithDays {
+  description: "Select all personal wallets having days available."
+  statement:
+  	SELECT com.trivadis.greenfield.PersonalWallet
+  		WHERE (days > 0.0)
+}

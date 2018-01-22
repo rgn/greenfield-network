@@ -1,0 +1,102 @@
+/**
+ * New model file
+ */
+
+namespace com.trivadis.greenfield
+
+enum IdeaState {
+  o FRESH
+  o INWORK
+  o FINISHED
+}
+
+asset Idea identified by ideaId {
+  o String ideaId
+  o String description  
+  o Double days
+  o IdeaState state default = "resource:com.trivadis.greenfield.IdeaState.FRESH"
+  --> Person owner
+  --> Person[] adapter optional
+  --> Person[] likedBy optional
+  --> Person[] followedBy optional
+}
+
+asset PersonalWallet identified by walletId {
+  o String walletId  
+  o Double days
+  --> Person owner
+}
+
+participant Person identified by personId {
+  o String personId 
+  o String firstName
+  o String lastName
+}
+
+transaction IdeaDonateDays {  
+  --> PersonalWallet wallet
+  --> Idea idea
+  o Double days
+  o DateTime donationDate default = '' optional
+}
+  
+transaction IdeaLike {
+  --> Idea idea
+  --> Person person
+}
+  
+transaction IdeaFollow {
+  --> Idea idea
+  --> Person person
+}
+  
+transaction IdeaStateChange {
+  --> Idea idea
+  o IdeaState state
+}
+  
+transaction PersonalWalletRevokeDays {
+  o Double days default = 0.0
+}
+  
+transaction PersonalWalletReleaseDays {
+  o Double days default = 5.0
+}
+    
+event ReceivedDonationEvent {
+  --> Idea idea optional
+  o Double days 
+}
+  
+event DonationSuccessEvent {  
+  o String message
+  o Double daysRemaining  
+}
+  
+event DonationFailedEvent {
+  o String message
+  o Double daysToDonate
+  o Double daysAvailable  
+}
+  
+event ReleaseDaysEvent {
+}
+
+event RevokeDaysEvent {
+} 
+ 
+event IdeaFollowedEvent {
+  --> Person person
+  o Integer count
+}
+  
+event IdeaLikedEvent {
+  --> Person person
+  o Integer count
+}
+
+event IdeaStateChangeEvent {
+  --> Idea idea
+  o IdeaState oldState
+  o IdeaState newState
+}
