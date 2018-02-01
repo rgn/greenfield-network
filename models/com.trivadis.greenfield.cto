@@ -12,6 +12,7 @@ enum IdeaState {
 
 asset Idea identified by ideaId {
   o String ideaId
+  o String title
   o String description  
   o Double days
   o IdeaState state default = "resource:com.trivadis.greenfield.IdeaState.FRESH"
